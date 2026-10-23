@@ -118,7 +118,58 @@ function App() {
         <section className="desk-panel">
           <div className="panel-title-row"><div><h2>Conversaciones</h2><p>Selecciona una conversación para ver sus detalles</p></div><div className="panel-tag"><span className="live-dot"/> Actualización local</div></div>
           <div className="desk-grid">
-            <div className="conversation-list"><div className="list-toolbar"><div className="search-box"><Search size={17}/><input aria-label="Buscar conversaciones" value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar conversación..."/></div><button aria-label="Opciones de búsqueda" className="toolbar-square" disabled title="Usa las pestañas para filtrar"><ChevronDown size={18}/></button></div><div className="filter-tabs">{FILTERS.map(item => <button key={item.key} className={filter === item.key ? 'tab active' : 'tab'} onClick={() => setFilter(item.key)}>{item.label}</button>)}</div>
+<div className="conversation-list">
+  <div className="list-toolbar">
+    <div className="search-box">
+      <Search size={17} />
+
+      <input
+        aria-label="Buscar conversaciones"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        placeholder="Buscar conversación..."
+      />
+
+      {search && (
+        <button
+          type="button"
+          onClick={() => setSearch('')}
+          aria-label="Limpiar búsqueda"
+          title="Limpiar búsqueda"
+          style={{
+            border: 0,
+            background: 'transparent',
+            color: '#7563ee',
+            cursor: 'pointer',
+            flexShrink: 0
+          }}
+        >
+          <X size={16} />
+        </button>
+      )}
+    </div>
+
+    <button
+      aria-label="Opciones de búsqueda"
+      className="toolbar-square"
+      disabled
+      title="Usa las pestañas para filtrar"
+    >
+      <ChevronDown size={18} />
+    </button>
+  </div>
+
+  <div className="filter-tabs">
+    {FILTERS.map(item => (
+      <button
+        key={item.key}
+        className={filter === item.key ? 'tab active' : 'tab'}
+        onClick={() => setFilter(item.key)}
+      >
+        {item.label}
+      </button>
+    ))}
+  </div>
               <div className="items">{loading ? <p className="empty">Cargando...</p> : filtered.length ? filtered.map(c => <button key={c.id} className={`conversation-item ${selectedId === c.id ? 'selected' : ''}`} onClick={() => { setSelectedId(c.id); setDraft(''); setError(''); }}><Avatar conversation={c}/><div className="item-content"><div className="item-top"><strong>{c.name}</strong><small>{relativeTime(c.updatedAt)}</small></div><div className="item-company">{c.company} <span>·</span> {c.channel}</div><div className="item-preview">{c.lastMessage}</div><div className="item-footer"><span className={`status-badge ${STATUS[c.status].className}`}>{STATUS[c.status].label}</span>{c.priority === 'high' && <span className="priority">Prioridad alta</span>}</div></div></button>) : <p className="empty">No encontramos conversaciones con ese filtro.</p>}</div>
               <div className="list-footer">Mostrando {filtered.length} de {conversations.length} conversaciones</div>
             </div>
