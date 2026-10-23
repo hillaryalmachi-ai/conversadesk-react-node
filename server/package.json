@@ -1,0 +1,8 @@
+{
+  "name": "@conversadesk/server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"dev": "node --watch index.js", "start": "node index.js", "test": "node --test"},
+  "dependencies": {"express": "^5.1.0"},
+  "engines": {"node": ">=22.12.0"}
+}
